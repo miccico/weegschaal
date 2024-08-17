@@ -35,7 +35,7 @@ MedisanaBS444 = medisana_bs444_ns.class_(
 
 # Generate schema for 8 persons
 MEASUREMENTS = cv.Schema({
-        cv.Optional("%s" %(CONF_WEIGHT,x)): sensor.sensor_schema(
+        cv.Optional("%s" %(CONF_WEIGHT)): sensor.sensor_schema(
                 unit_of_measurement=UNIT_KILOGRAM,
                 icon=ICON_SCALE_BATHROOM,
                 accuracy_decimals=1,

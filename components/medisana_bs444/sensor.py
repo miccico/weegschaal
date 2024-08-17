@@ -38,7 +38,7 @@ MEASUREMENTS = cv.Schema({
 
     });
 
-for x in range(1, 8):
+for x in range(1, 9):
     MEASUREMENTS = MEASUREMENTS.extend(
        cv.Schema(
         {

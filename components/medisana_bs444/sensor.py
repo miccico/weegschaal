@@ -35,10 +35,16 @@ MedisanaBS444 = medisana_bs444_ns.class_(
 
 # Generate schema for 8 persons
 MEASUREMENTS = cv.Schema({
-
+        cv.Optional("%s" %(CONF_WEIGHT,x)): sensor.sensor_schema(
+                unit_of_measurement=UNIT_KILOGRAM,
+                icon=ICON_SCALE_BATHROOM,
+                accuracy_decimals=1,
+                device_class=DEVICE_CLASS_WEIGHT,
+                state_class=STATE_CLASS_MEASUREMENT,
+            ),
     });
 
-for x in range(1, 9):
+for x in range(1, 8):
     MEASUREMENTS = MEASUREMENTS.extend(
        cv.Schema(
         {
@@ -117,7 +123,12 @@ async def to_code(config):
         cg.add(var.set_time_id(time_))
     cg.add(var.use_timeoffset(config[CONF_TIME_OFFSET]))
 
-    for x in range(1, 9):
+    CONF_VAL = "%s" %(CONF_WEIGHT)
+    if CONF_VAL in config:
+        sens = await sensor.new_sensor(config[CONF_VAL])
+        cg.add(var.set_weight(255, sens))
+        
+    for x in range(1, 8):
         CONF_VAL = "%s_%s" %(CONF_WEIGHT,x)
         if CONF_VAL in config:
             sens = await sensor.new_sensor(config[CONF_VAL])

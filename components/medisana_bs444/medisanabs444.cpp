@@ -134,6 +134,11 @@ namespace medisana_bs444
             if (this->bmi_sensor_[index] && mPerson.size)
               this->bmi_sensor_[index]->publish_state(mWeight.weight / (mPerson.size * mPerson.size));
           }
+          else if (index == 8)
+          {
+             if (this->weight_sensor_[index])
+              this->weight_sensor_[index]->publish_state(mWeight.weight);
+          }
           if (mBody.valid && (mBody.person == mPerson.person))
           {
             ESP_LOGI(TAG, "Body %s:", mBody.toString().c_str());

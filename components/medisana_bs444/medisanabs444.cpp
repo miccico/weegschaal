@@ -127,8 +127,8 @@ namespace medisana_bs444
           if (mPerson.person==255)
           {
             index=8;
-            if (this->weight_sensor_[index])
-              this->weight_sensor_[index]->publish_state(mWeight.weight);
+            if (this->weight_sensor)
+              this->weight_sensor->publish_state(mWeight.weight);
           }
           else
           {

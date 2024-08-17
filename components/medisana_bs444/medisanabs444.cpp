@@ -118,13 +118,6 @@ namespace medisana_bs444
       ESP_LOGD(TAG, "ESP_GATTC_DISCONNECT_EVT!");
       this->node_state = esp32_ble_tracker::ClientState::IDLE;
 
-      if (mPerson.person==255)
-      {
-        ESP_LOGI(TAG, "Weight: %d", mWeight.weight);
-        if (this->weight_sensor)
-          this->weight_sensor->publish_state(mWeight.weight);
-      }
-            
       if (mPerson.valid)
       {
         // this is a measurement
@@ -272,6 +265,9 @@ namespace medisana_bs444
         if (data.timestamp <= now())
         {
           ESP_LOGD(TAG, "data %s:", data.toString().c_str());
+          if (this->weight_sensor)
+            this->weight_sensor->publish_state(data.weight);
+            
           if (!mWeight.valid || (mWeight < data))
             mWeight = data;
         }

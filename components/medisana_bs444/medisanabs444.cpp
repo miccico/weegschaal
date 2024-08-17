@@ -124,34 +124,37 @@ namespace medisana_bs444
         if (((mPerson.person >= 1) && (mPerson.person <= 8))||(mPerson.person = 255))
         {
           uint8_t index = mPerson.person - 1;
-          if (mPerson.person==255) index=8;
-
-          if (mWeight.valid && (mWeight.person == mPerson.person))
+          if (mPerson.person==255)
           {
-            ESP_LOGI(TAG, "Weight %s:", mWeight.toString(mPerson).c_str());
+            index=8;
             if (this->weight_sensor_[index])
               this->weight_sensor_[index]->publish_state(mWeight.weight);
-            if (this->bmi_sensor_[index] && mPerson.size)
-              this->bmi_sensor_[index]->publish_state(mWeight.weight / (mPerson.size * mPerson.size));
           }
-          else if (index == 8)
+          else
           {
-             if (this->weight_sensor_[index])
-              this->weight_sensor_[index]->publish_state(mWeight.weight);
-          }
-          if (mBody.valid && (mBody.person == mPerson.person))
-          {
-            ESP_LOGI(TAG, "Body %s:", mBody.toString().c_str());
-            if (this->kcal_sensor_[index])
-              this->kcal_sensor_[index]->publish_state(mBody.kcal);
-            if (this->fat_sensor_[index])
-              this->fat_sensor_[index]->publish_state(mBody.fat);
-            if (this->tbw_sensor_[index])
-              this->tbw_sensor_[index]->publish_state(mBody.tbw);
-            if (this->muscle_sensor_[index])
-              this->muscle_sensor_[index]->publish_state(mBody.muscle);
-            if (this->bone_sensor_[index])
-              this->bone_sensor_[index]->publish_state(mBody.bone);
+  
+            if (mWeight.valid && (mWeight.person == mPerson.person))
+            {
+              ESP_LOGI(TAG, "Weight %s:", mWeight.toString(mPerson).c_str());
+              if (this->weight_sensor_[index])
+                this->weight_sensor_[index]->publish_state(mWeight.weight);
+              if (this->bmi_sensor_[index] && mPerson.size)
+                this->bmi_sensor_[index]->publish_state(mWeight.weight / (mPerson.size * mPerson.size));
+            }
+            if (mBody.valid && (mBody.person == mPerson.person))
+            {
+              ESP_LOGI(TAG, "Body %s:", mBody.toString().c_str());
+              if (this->kcal_sensor_[index])
+                this->kcal_sensor_[index]->publish_state(mBody.kcal);
+              if (this->fat_sensor_[index])
+                this->fat_sensor_[index]->publish_state(mBody.fat);
+              if (this->tbw_sensor_[index])
+                this->tbw_sensor_[index]->publish_state(mBody.tbw);
+              if (this->muscle_sensor_[index])
+                this->muscle_sensor_[index]->publish_state(mBody.muscle);
+              if (this->bone_sensor_[index])
+                this->bone_sensor_[index]->publish_state(mBody.bone);
+            }
           }
         }
       }

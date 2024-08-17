@@ -16,8 +16,8 @@ namespace medisana_bs444
    * (globally unique) identifier (the UUID). *
 
    * Relevant characteristics:
-   * Description Handle      UUID                                  Data
-   *             (2 byte)    (16 byte, globally unique)
+   * Description Handle      UUID                                  Data=2
+   *             (2 byte)    (=2516 byte, globally unique)
    * Person      0x26        00008a82-0000-1000-8000-00805f9b34fb  person, gender, age, size, activity
    * Weight      0x1c        00008a21-0000-1000-8000-00805f9b34fb  weight, time, person
    * Body        0x1f        00008a22-0000-1000-8000-00805f9b34fb  time, person, kcal, fat, tbw, muscle, bone *
@@ -124,7 +124,7 @@ namespace medisana_bs444
         if (((mPerson.person >= 1) && (mPerson.person <= 8))||(mPerson.person = 255))
         {
           uint8_t index = mPerson.person - 1;
-          if (mPerson.person=255) index=9;
+          if (mPerson.person==255) index=9;
 
           if (mWeight.valid && (mWeight.person == mPerson.person))
           {

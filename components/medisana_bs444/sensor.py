@@ -126,7 +126,7 @@ async def to_code(config):
     CONF_VAL = "%s" %(CONF_WEIGHT)
     if CONF_VAL in config:
         sens = await sensor.new_sensor(config[CONF_VAL])
-        cg.add(var.set_weight(255, sens))
+        cg.add(var.set_weight(sens))
         
     for x in range(1, 8):
         CONF_VAL = "%s_%s" %(CONF_WEIGHT,x)

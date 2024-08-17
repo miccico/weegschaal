@@ -96,6 +96,7 @@ namespace medisana_bs444
 
     u_int32_t registered_notifications_ = 0;
   protected:
+    sensor::Sensor *weight_sensor{nullptr};
     sensor::Sensor *weight_sensor_[9]{nullptr};
     sensor::Sensor *bmi_sensor_[9]{nullptr};
     sensor::Sensor *kcal_sensor_[9]{nullptr};

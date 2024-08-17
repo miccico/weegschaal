@@ -124,7 +124,7 @@ namespace medisana_bs444
         if (((mPerson.person >= 1) && (mPerson.person <= 8))||(mPerson.person = 255))
         {
           uint8_t index = mPerson.person - 1;
-          if (mPerson.person==255) index=9;
+          if (mPerson.person==255) index=8;
 
           if (mWeight.valid && (mWeight.person == mPerson.person))
           {

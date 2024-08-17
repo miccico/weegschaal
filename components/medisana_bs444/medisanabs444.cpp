@@ -117,44 +117,43 @@ namespace medisana_bs444
     {
       ESP_LOGD(TAG, "ESP_GATTC_DISCONNECT_EVT!");
       this->node_state = esp32_ble_tracker::ClientState::IDLE;
+
+      if (mPerson.person==255)
+      {
+        if (this->weight_sensor)
+          this->weight_sensor->publish_state(mWeight.weight);
+      }
+            
       if (mPerson.valid)
       {
         // this is a measurement
         ESP_LOGI(TAG, "Person %s:", mPerson.toString().c_str());
-        if (((mPerson.person >= 1) && (mPerson.person <= 8))||(mPerson.person = 255))
+        if (((mPerson.person >= 1) && (mPerson.person <= 8)))
         {
           uint8_t index = mPerson.person - 1;
-          if (mPerson.person==255)
+        
+
+          if (mWeight.valid && (mWeight.person == mPerson.person))
           {
-            index=8;
-            if (this->weight_sensor)
-              this->weight_sensor->publish_state(mWeight.weight);
+            ESP_LOGI(TAG, "Weight %s:", mWeight.toString(mPerson).c_str());
+            if (this->weight_sensor_[index])
+              this->weight_sensor_[index]->publish_state(mWeight.weight);
+            if (this->bmi_sensor_[index] && mPerson.size)
+              this->bmi_sensor_[index]->publish_state(mWeight.weight / (mPerson.size * mPerson.size));
           }
-          else
+          if (mBody.valid && (mBody.person == mPerson.person))
           {
-  
-            if (mWeight.valid && (mWeight.person == mPerson.person))
-            {
-              ESP_LOGI(TAG, "Weight %s:", mWeight.toString(mPerson).c_str());
-              if (this->weight_sensor_[index])
-                this->weight_sensor_[index]->publish_state(mWeight.weight);
-              if (this->bmi_sensor_[index] && mPerson.size)
-                this->bmi_sensor_[index]->publish_state(mWeight.weight / (mPerson.size * mPerson.size));
-            }
-            if (mBody.valid && (mBody.person == mPerson.person))
-            {
-              ESP_LOGI(TAG, "Body %s:", mBody.toString().c_str());
-              if (this->kcal_sensor_[index])
-                this->kcal_sensor_[index]->publish_state(mBody.kcal);
-              if (this->fat_sensor_[index])
-                this->fat_sensor_[index]->publish_state(mBody.fat);
-              if (this->tbw_sensor_[index])
-                this->tbw_sensor_[index]->publish_state(mBody.tbw);
-              if (this->muscle_sensor_[index])
-                this->muscle_sensor_[index]->publish_state(mBody.muscle);
-              if (this->bone_sensor_[index])
-                this->bone_sensor_[index]->publish_state(mBody.bone);
-            }
+            ESP_LOGI(TAG, "Body %s:", mBody.toString().c_str());
+            if (this->kcal_sensor_[index])
+              this->kcal_sensor_[index]->publish_state(mBody.kcal);
+            if (this->fat_sensor_[index])
+              this->fat_sensor_[index]->publish_state(mBody.fat);
+            if (this->tbw_sensor_[index])
+              this->tbw_sensor_[index]->publish_state(mBody.tbw);
+            if (this->muscle_sensor_[index])
+              this->muscle_sensor_[index]->publish_state(mBody.muscle);
+            if (this->bone_sensor_[index])
+              this->bone_sensor_[index]->publish_state(mBody.bone);
           }
         }
       }
